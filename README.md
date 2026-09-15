@@ -28,3 +28,18 @@ python manage.py runserver
 ```
 
 Open `/` for the library and `/dashboard/` for the content administrator dashboard.
+
+## Render deployment
+
+The Render configuration is designed so no paid Render Shell is required for normal database initialization. `build.sh` installs dependencies and collects static files. Each time the Render web service starts after a deployment, `deploy.sh` runs Django migrations, creates/repairs the single configured content administrator from `CONTENT_ADMIN_USERNAME` and `CONTENT_ADMIN_PASSWORD`, collects static files, and then starts Gunicorn.
+
+Set these Render environment variables:
+
+- `DJANGO_DEBUG=0`
+- `DJANGO_SECRET_KEY` (Render can generate this)
+- `DJANGO_ALLOWED_HOSTS` (for example `diverse-mind.onrender.com`)
+- `CONTENT_ADMIN_USERNAME=admin`
+- `CONTENT_ADMIN_PASSWORD=<your strong password>`
+- `DATABASE_URL=<your Supabase PostgreSQL connection string>`
+
+Do not put the real password or database URL into GitHub. Keep them in Render Environment Variables.

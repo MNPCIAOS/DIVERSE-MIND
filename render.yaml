@@ -2,15 +2,15 @@ services:
   - type: web
     name: diverse-mind-library
     runtime: python
-    buildCommand: ./build.sh
-    startCommand: gunicorn DIVERSE_MIND_LIBRARY.wsgi:application --bind 0.0.0.0:$PORT
+    buildCommand: bash build.sh
+    startCommand: bash deploy.sh
     envVars:
       - key: DJANGO_DEBUG
         value: "0"
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DJANGO_ALLOWED_HOSTS
-        value: diverse-mind-library.onrender.com
+        value: diverse-mind.onrender.com
       - key: CONTENT_ADMIN_USERNAME
         value: admin
       - key: CONTENT_ADMIN_PASSWORD
