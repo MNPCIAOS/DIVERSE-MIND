@@ -6,3 +6,377 @@
 @media(max-width:700px){.lib-brand span{display:none}.lib-tools{justify-content:center}.hero-copy{padding:45px 28px}.hero h1{font-size:3.2rem}.book-grid{grid-template-columns:repeat(2,1fr);gap:12px}.book-card img,.cover-placeholder{height:230px}.welcome{padding:28px 20px}.detail{grid-template-columns:1fr;gap:25px}.detail-cover{max-width:280px}.detail-cover img,.detail-cover .large{height:390px}.genre-grid,.genre-list-grid,.profile-grid,.form-layout{grid-template-columns:1fr}footer{grid-template-columns:1fr}.admin-row{grid-template-columns:45px 1fr auto}.admin-row>a:last-child{grid-column:3}.dash-title{align-items:flex-start;flex-direction:column}}
 .filter-bar{display:grid;grid-template-columns:2fr repeat(5,1fr) auto;gap:10px;margin-bottom:35px;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:18px}.filter-bar input,.filter-bar select{min-width:0;width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--text);outline:none}.pagination{display:flex;justify-content:center;gap:20px;align-items:center;margin:35px 0}.pagination a{padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--accent);font-weight:800}
 @media(max-width:1050px){.filter-bar{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.filter-bar{grid-template-columns:1fr}}
+/* =========================================================
+   DIVERSE MIND LIBRARY — MOBILE HEADER REDESIGN
+   These rules intentionally come after the original desktop CSS.
+   ========================================================= */
+
+.mobile-search-btn,
+.mobile-menu-btn,
+.mobile-login,
+.mobile-search-panel,
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 1050px) {
+    .lib-nav {
+        flex-wrap: wrap;
+    }
+
+    .desktop-search {
+        order: 2;
+        max-width: none;
+        flex-basis: 100%;
+        margin: 0;
+    }
+
+    .desktop-nav {
+        order: 3;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .lib-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: var(--panel);
+        border-bottom: 1px solid var(--line);
+    }
+
+    .lib-nav {
+        min-height: 66px;
+        padding: 9px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: nowrap;
+    }
+
+    .lib-brand {
+        min-width: 0;
+        flex: 1 1 auto;
+        gap: 8px;
+        letter-spacing: .08em;
+        overflow: hidden;
+    }
+
+    .lib-brand img {
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+    }
+
+    .lib-brand span {
+        display: block;
+        font-size: .72rem;
+        line-height: 1.1;
+        white-space: nowrap;
+    }
+
+    .lib-brand small {
+        font-size: .58rem;
+        letter-spacing: .14em;
+    }
+
+    .desktop-search,
+    .desktop-nav {
+        display: none !important;
+    }
+
+    .mobile-login {
+        display: flex;
+        flex: 0 0 auto;
+        margin-left: 0;
+    }
+
+    .mobile-login a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 38px;
+        padding: 7px 9px;
+        color: var(--accent);
+        font-size: .82rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .mobile-search-btn,
+    .mobile-menu-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--panel2);
+        color: var(--text);
+        cursor: pointer;
+        transition: transform .18s ease, background .18s ease;
+    }
+
+    .mobile-search-btn {
+        font-size: 1rem;
+    }
+
+    .mobile-menu-btn {
+        font-size: 1.15rem;
+    }
+
+    .mobile-search-btn:hover,
+    .mobile-menu-btn:hover {
+        background: var(--accent-soft);
+    }
+
+    .mobile-search-btn:active,
+    .mobile-menu-btn:active {
+        transform: scale(.92);
+    }
+
+    .mobile-search-panel,
+    .mobile-menu {
+        display: block;
+        border-top: 1px solid var(--line);
+        background: var(--panel);
+    }
+
+    .mobile-search-panel[hidden],
+    .mobile-menu[hidden] {
+        display: none !important;
+    }
+
+    .mobile-search-panel {
+        padding: 10px 12px 13px;
+    }
+
+    .mobile-search-form {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        width: 100%;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--panel2);
+    }
+
+    .mobile-search-form input {
+        flex: 1;
+        min-width: 0;
+        padding: 10px 12px;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--text);
+    }
+
+    .mobile-search-form input::placeholder {
+        color: var(--muted);
+    }
+
+    .mobile-search-form button {
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .mobile-menu {
+        padding: 10px 12px 15px;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, .08);
+    }
+
+    .mobile-menu-links {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .mobile-menu-links a,
+    .mobile-menu-links form button {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 46px;
+        padding: 11px 13px;
+        border: 0;
+        border-radius: 12px;
+        background: transparent;
+        color: var(--text);
+        font-size: .94rem;
+        font-weight: 700;
+        text-align: left;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .mobile-menu-links a:hover,
+    .mobile-menu-links form button:hover,
+    .mobile-menu-links a:active,
+    .mobile-menu-links form button:active {
+        background: var(--panel2);
+        color: var(--accent);
+    }
+
+    .mobile-menu-links form {
+        margin: 0;
+    }
+
+    .mobile-menu-links .mobile-join {
+        margin-top: 4px;
+        justify-content: center;
+        background: var(--accent);
+        color: #fff;
+    }
+
+    .mobile-menu-links .mobile-join:hover {
+        color: #fff;
+        opacity: .92;
+    }
+
+    .lib-tools {
+        padding: 9px 12px;
+        justify-content: center;
+        gap: 7px;
+        flex-wrap: wrap;
+    }
+
+    .lib-tools button,
+    .lib-tools label {
+        padding: 7px 10px;
+        font-size: .76rem;
+    }
+
+    .lib-tools select {
+        max-width: 150px;
+        font-size: .76rem;
+    }
+
+    .lib-announcement {
+        padding: 8px 12px;
+        font-size: .78rem;
+    }
+
+    .hero {
+        margin: 12px 12px 0;
+        min-height: auto;
+        border-radius: 22px;
+    }
+
+    .hero-copy {
+        padding: 40px 22px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.7rem, 13vw, 4rem);
+    }
+
+    .hero-text {
+        font-size: .96rem;
+    }
+
+    .hero-art {
+        min-height: 220px;
+    }
+
+    .open-book {
+        font-size: 5rem;
+    }
+
+    .welcome,
+    .section,
+    .genres-home {
+        margin: 30px auto;
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .welcome {
+        padding: 27px 17px;
+        border-radius: 18px;
+    }
+
+    .welcome h2 {
+        font-size: 2rem;
+    }
+
+    .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .section-head h2 {
+        font-size: 1.65rem;
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .book-card {
+        border-radius: 14px;
+    }
+
+    .book-card img,
+    .cover-placeholder {
+        height: 210px;
+    }
+
+    .book-info {
+        padding: 11px;
+    }
+
+    .book-info h3 {
+        font-size: .95rem;
+    }
+
+    .book-info p {
+        font-size: .8rem;
+    }
+
+    .detail {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin: 30px auto;
+        padding: 0 14px;
+    }
+
+    .detail-cover {
+        max-width: 270px;
+        width: 100%;
+        margin: auto;
+    }
+
+    .detail-cover img,
+    .detail-cover .large {
+        height: 380px;
+    }
+
+    .detail-copy h1 {
+        font-size: 2.5rem;
+    }
+
+    .filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    footer {
+        grid-template-columns: 1fr;
+        padding: 35px 20px;
+        gap: 25px;
+    }
+}

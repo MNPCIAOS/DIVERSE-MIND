@@ -24,3 +24,69 @@
   }
   picker?.addEventListener('change',()=>{state.theme=Number(picker.value);apply()}); mode?.addEventListener('click',()=>{state.night=!state.night;apply()}); apply();
 })();
+
+/* =========================================================
+   MOBILE SEARCH + MENU
+   ========================================================= */
+(() => {
+    const searchBtn = document.querySelector("#mobile-search-btn");
+    const searchPanel = document.querySelector("#mobile-search-panel");
+    const menuBtn = document.querySelector("#mobile-menu-btn");
+    const menu = document.querySelector("#mobile-menu");
+
+    function closeSearch() {
+        if (!searchPanel || !searchBtn) return;
+        searchPanel.hidden = true;
+        searchBtn.setAttribute("aria-expanded", "false");
+        searchBtn.textContent = "🔍";
+    }
+
+    function openSearch() {
+        if (!searchPanel || !searchBtn) return;
+        searchPanel.hidden = false;
+        searchBtn.setAttribute("aria-expanded", "true");
+        searchBtn.textContent = "✕";
+
+        const input = searchPanel.querySelector("input");
+        if (input) input.focus();
+    }
+
+    function closeMenu() {
+        if (!menu || !menuBtn) return;
+        menu.hidden = true;
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.textContent = "☰";
+    }
+
+    function openMenu() {
+        if (!menu || !menuBtn) return;
+        menu.hidden = false;
+        menuBtn.setAttribute("aria-expanded", "true");
+        menuBtn.textContent = "✕";
+    }
+
+    searchBtn?.addEventListener("click", () => {
+        const open = searchBtn.getAttribute("aria-expanded") === "true";
+        if (open) closeSearch();
+        else {
+            closeMenu();
+            openSearch();
+        }
+    });
+
+    menuBtn?.addEventListener("click", () => {
+        const open = menuBtn.getAttribute("aria-expanded") === "true";
+        if (open) closeMenu();
+        else {
+            closeSearch();
+            openMenu();
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            closeSearch();
+            closeMenu();
+        }
+    });
+})();
