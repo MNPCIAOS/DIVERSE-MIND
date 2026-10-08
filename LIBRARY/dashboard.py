@@ -1,18 +1,19 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import AnnouncementForm, BookForm, FeedbackForm, LibraryGenreForm, SiteSettingsForm
-from .models import Announcement, Book, BookComment, Feedback, LibraryGenre, SiteSettings
+from .models import AccountActivity, Announcement, Book, BookComment, Feedback, LibraryGenre, SiteSettings
 
-def is_admin(user): return user.is_authenticated and user.is_staff and user.username == settings.CONTENT_ADMIN_USERNAME
+def is_admin(user): return user.is_authenticated and user.is_staff and user.is_superuser
 admin_required=user_passes_test(is_admin,login_url='login')
 
 @admin_required
 def dashboard(request):
     return render(request,'LIBRARY/dashboard.html',{
         'book_count':Book.objects.count(),'published_count':Book.objects.filter(is_published=True).count(),'draft_count':Book.objects.filter(is_published=False).count(),
-        'genre_count':LibraryGenre.objects.count(),'comment_count':BookComment.objects.count(),'feedback_count':Feedback.objects.count(),'views':sum(Book.objects.values_list('view_count',flat=True)),
+        'genre_count':LibraryGenre.objects.count(),'comment_count':BookComment.objects.count(),'feedback_count':Feedback.objects.count(),'user_count':get_user_model().objects.count(),'views':sum(Book.objects.values_list('view_count',flat=True)),
         'downloads':sum(Book.objects.values_list('download_count',flat=True)),'recent_books':Book.objects.prefetch_related('genres').all()[:10]
     })
 
@@ -93,3 +94,49 @@ def site_settings(request):
     form=SiteSettingsForm(request.POST or None,instance=obj)
     if request.method=='POST' and form.is_valid(): form.save(); messages.success(request,'Library settings updated.'); return redirect('dashboard_settings')
     return render(request,'LIBRARY/dashboard_site_settings.html',{'form':form})
+
+
+@admin_required
+def accounts(request):
+    User = get_user_model()
+    users = User.objects.all().order_by('-date_joined')
+    rows = []
+    for user in users:
+        rows.append({
+            'user': user,
+            'activity_count': user.account_activities.count(),
+            'last_activity': user.account_activities.first(),
+        })
+    return render(request, 'LIBRARY/dashboard_accounts.html', {'rows': rows})
+
+@admin_required
+def account_activity(request, user_id):
+    User = get_user_model()
+    target = get_object_or_404(User, pk=user_id)
+    activities = target.account_activities.all()[:100]
+    return render(request, 'LIBRARY/dashboard_account_activity.html', {
+        'target_user': target,
+        'activities': activities,
+    })
+
+@admin_required
+def account_delete(request, user_id):
+    User = get_user_model()
+    target = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        if target.pk == request.user.pk:
+            messages.error(request, 'You cannot delete the administrator account you are currently using.')
+        elif target.is_superuser or target.is_staff:
+            messages.error(request, 'Staff administrator accounts cannot be deleted from the reader account manager.')
+        else:
+            username = target.username
+            target.delete()
+            messages.success(request, f'Account “{username}” was deleted.')
+        return redirect('dashboard_accounts')
+    return render(request, 'LIBRARY/dashboard_confirm.html', {
+        'title': 'Delete account',
+        'message': f'Delete the account “{target.username}”? This cannot be undone.',
+        'cancel_url': 'dashboard_accounts',
+        'delete_url': 'dashboard_account_delete',
+        'object': target,
+    })

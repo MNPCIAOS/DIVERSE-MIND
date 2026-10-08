@@ -6,5 +6,5 @@ urlpatterns=[
  path('comments/',dashboard.comments,name='dashboard_comments'),path('comments/<int:pk>/delete/',dashboard.comment_delete,name='dashboard_library_comment_delete'),
  path('feedback/',dashboard.feedback,name='dashboard_feedback'),path('feedback/<int:pk>/delete/',dashboard.feedback_delete,name='dashboard_library_feedback_delete'),
  path('announcements/',dashboard.announcements,name='dashboard_announcements'),path('announcements/new/',dashboard.announcement_create,name='dashboard_announcement_create'),path('announcements/<int:pk>/edit/',dashboard.announcement_edit,name='dashboard_announcement_edit'),path('announcements/<int:pk>/delete/',dashboard.announcement_delete,name='dashboard_library_announcement_delete'),
- path('settings/',dashboard.site_settings,name='dashboard_settings'),
+ path('settings/',dashboard.site_settings,name='dashboard_settings'),path('accounts/',dashboard.accounts,name='dashboard_accounts'),path('accounts/<int:user_id>/activity/',dashboard.account_activity,name='dashboard_account_activity'),path('accounts/<int:user_id>/delete/',dashboard.account_delete,name='dashboard_account_delete'),
 ]

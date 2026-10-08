@@ -108,3 +108,31 @@ class SiteSettings(models.Model):
     contact_email=models.EmailField(blank=True); contact_phone=models.CharField(max_length=60,blank=True)
     updated_at=models.DateTimeField(auto_now=True)
     def __str__(self): return self.site_name
+
+
+class AccountActivity(models.Model):
+    ACTION_CHOICES = [
+        ('signup', 'Created account'),
+        ('login', 'Logged in'),
+        ('logout', 'Logged out'),
+        ('profile', 'Updated account'),
+        ('read', 'Opened a book'),
+        ('download', 'Downloaded a book'),
+        ('like', 'Liked a book'),
+        ('comment', 'Posted a comment'),
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='account_activities')
+    action = models.CharField(max_length=20, choices=ACTION_CHOICES)
+    description = models.CharField(max_length=255, blank=True)
+    path = models.CharField(max_length=500, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', '-created_at']),
+            models.Index(fields=['action', '-created_at']),
+        ]
+
+    def __str__(self):
+        return f'{self.user.username} — {self.get_action_display()}'

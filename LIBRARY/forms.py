@@ -1,7 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from .models import Announcement, Book, BookComment, Feedback, LibraryGenre, SiteSettings
+
+class AccountUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email')
 
 class SignupForm(UserCreationForm):
     email=forms.EmailField(required=True)

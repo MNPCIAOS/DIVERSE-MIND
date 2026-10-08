@@ -10,7 +10,7 @@ ALLOWED_HOSTS = [h.strip() for h in os.environ.get('DJANGO_ALLOWED_HOSTS', '127.
 
 INSTALLED_APPS = [
     'django.contrib.admin','django.contrib.auth','django.contrib.contenttypes','django.contrib.sessions',
-    'django.contrib.messages','django.contrib.staticfiles','LIBRARY',
+    'django.contrib.messages','django.contrib.staticfiles','LIBRARY.apps.LibraryConfig',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware','whitenoise.middleware.WhiteNoiseMiddleware',
@@ -38,7 +38,7 @@ AUTH_PASSWORD_VALIDATORS = [
  {'NAME':'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 LANGUAGE_CODE='en-us'; TIME_ZONE='Africa/Kigali'; USE_I18N=True; USE_TZ=True
-STATIC_URL='/static/'; STATIC_ROOT=BASE_DIR/'staticfiles'; STATICFILES_DIRS=[BASE_DIR/'static']
+STATIC_URL='/static/'; STATIC_ROOT=BASE_DIR/'staticfiles'; STATICFILES_DIRS=[BASE_DIR/'static'] if (BASE_DIR/'static').exists() else []
 STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL='/media/'; MEDIA_ROOT=BASE_DIR/'media'
 CONTENT_ADMIN_USERNAME=os.environ.get('CONTENT_ADMIN_USERNAME','admin')

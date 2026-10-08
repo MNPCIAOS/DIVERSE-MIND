@@ -1,0 +1,10 @@
+{% extends 'LIBRARY/dashboard_base.html' %}
+{% block title %}{{ target_user.username }} Activity — Diverse Mind Library{% endblock %}
+{% block admin_content %}
+<div class="dash-title"><div><p class="eyebrow">ACCOUNT ACTIVITY</p><h1>{{ target_user.username }}</h1><p>{{ target_user.email|default:'No email' }} · Joined {{ target_user.date_joined|date:'M d, Y' }}</p></div><a class="secondary-btn" href="{% url 'dashboard_accounts' %}">← All accounts</a></div>
+<section class="admin-panel">
+{% for activity in activities %}
+  <div class="activity-item"><div><strong>{{ activity.get_action_display }}</strong><small>{{ activity.description }}</small><small>{{ activity.path }}</small></div><time>{{ activity.created_at|date:'M d, Y H:i:s' }}</time></div>
+{% empty %}<div class="empty">No activity has been recorded for this account.</div>{% endfor %}
+</section>
+{% endblock %}

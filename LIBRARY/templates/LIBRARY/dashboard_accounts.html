@@ -1,0 +1,27 @@
+{% extends 'LIBRARY/dashboard_base.html' %}
+{% block title %}Reader Accounts — Diverse Mind Library{% endblock %}
+{% block admin_content %}
+<div class="dash-title"><div><p class="eyebrow">ACCOUNT MANAGEMENT</p><h1>Registered accounts</h1><p>View account status, login information and recorded activity. Reader accounts can be deleted here.</p></div></div>
+<section class="admin-panel">
+{% for row in rows %}
+  <div class="admin-account-row">
+    <div class="account-avatar">{{ row.user.username|first|upper }}</div>
+    <div class="account-main">
+      <strong>{{ row.user.username }}</strong>
+      <small>{{ row.user.email|default:'No email' }}</small>
+      <small>Joined {{ row.user.date_joined|date:'M d, Y H:i' }} · Last login {{ row.user.last_login|date:'M d, Y H:i'|default:'Never' }}</small>
+    </div>
+    <div class="account-status">
+      {% if row.user.is_active %}<em>Active</em>{% else %}<em class="muted-status">Inactive</em>{% endif %}
+      <small>{{ row.activity_count }} activities</small>
+    </div>
+    <div class="account-actions">
+      <a href="{% url 'dashboard_account_activity' row.user.pk %}">Activity</a>
+      {% if not row.user.is_superuser and not row.user.is_staff %}
+        <a class="danger" href="{% url 'dashboard_account_delete' row.user.pk %}">Delete</a>
+      {% endif %}
+    </div>
+  </div>
+{% empty %}<p>No registered accounts.</p>{% endfor %}
+</section>
+{% endblock %}

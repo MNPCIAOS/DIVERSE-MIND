@@ -1,0 +1,25 @@
+{% extends 'LIBRARY/base.html' %}
+{% block title %}Update Account — Diverse Mind Library{% endblock %}
+{% block content %}
+<section class="auth-page account-settings-page">
+  <div class="auth-card">
+    <p class="eyebrow">ACCOUNT SETTINGS</p>
+    <h1>Update your account</h1>
+    <p class="form-help">Change your username or email, or set a new password. Your account stays active while you update it.</p>
+
+    <form method="post" class="settings-form">
+      {% csrf_token %}<input type="hidden" name="action" value="account">
+      <h2>Profile details</h2>{{ user_form.as_p }}
+      <button class="hero-btn" type="submit">Save account details</button>
+    </form>
+
+    <form method="post" class="settings-form password-section">
+      {% csrf_token %}<input type="hidden" name="action" value="password">
+      <h2>Change password</h2>{{ password_form.as_p }}
+      <button class="hero-btn" type="submit">Change password</button>
+    </form>
+
+    <a class="view-more" href="{% url 'profile' %}">← Back to profile</a>
+  </div>
+</section>
+{% endblock %}

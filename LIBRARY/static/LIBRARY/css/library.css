@@ -380,3 +380,84 @@
         gap: 25px;
     }
 }
+
+/* Account management, image presentation and admin account UI */
+.book-card img {
+    object-fit: contain;
+    background: var(--panel2);
+}
+.detail-cover img {
+    object-fit: contain;
+    background: var(--panel2);
+}
+.detail-hero {
+    background-repeat: no-repeat;
+}
+.admin-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+.admin-brand img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+.activity-list {
+    display: grid;
+    gap: 0;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+}
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line);
+}
+.activity-item:last-child { border-bottom: 0; }
+.activity-item strong, .activity-item small { display: block; }
+.activity-item small { color: var(--muted); margin-top: 4px; }
+.activity-item time { color: var(--muted); font-size: .8rem; white-space: nowrap; }
+.settings-form + .settings-form {
+    border-top: 1px solid var(--line);
+    margin-top: 28px;
+    padding-top: 28px;
+}
+.settings-form h2 { margin-bottom: 8px; }
+.form-help { color: var(--muted); }
+.admin-account-row {
+    display: grid;
+    grid-template-columns: 50px minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+}
+.admin-account-row:last-child { border-bottom: 0; }
+.account-avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--accent-soft); color: var(--accent); font-weight: 900;
+}
+.account-main strong, .account-main small, .account-status small { display:block; }
+.account-main small, .account-status small { color: var(--muted); margin-top: 3px; }
+.account-status { text-align: right; }
+.account-status em { font-style: normal; color: var(--accent); font-weight: 800; }
+.account-status .muted-status { color: var(--muted); }
+.account-actions { display: flex; gap: 10px; align-items: center; }
+.inline-admin-form { display: inline; margin: 0; }
+.danger-link {
+    border: 0; background: transparent; padding: 0;
+    font: inherit; cursor: pointer;
+}
+@media(max-width:700px) {
+    .admin-account-row { grid-template-columns: 45px 1fr; }
+    .account-status { text-align: left; grid-column: 2; }
+    .account-actions { grid-column: 2; }
+    .activity-item { flex-direction: column; gap: 8px; }
+}
