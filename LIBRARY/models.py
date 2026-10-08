@@ -3,6 +3,40 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from urllib.parse import urlparse, parse_qs
+
+
+def display_image_url(value):
+    """Convert common Google Drive share links into embeddable image URLs.
+
+    The Drive file must be shared as Anyone with the link / Viewer.
+    """
+    if not value:
+        return ''
+    value = value.strip()
+    try:
+        parsed = urlparse(value)
+        host = (parsed.hostname or '').lower()
+        file_id = ''
+        if host.endswith('drive.google.com'):
+            parts = [part for part in parsed.path.split('/') if part]
+            if 'd' in parts:
+                index = parts.index('d')
+                if index + 1 < len(parts):
+                    file_id = parts[index + 1]
+            if not file_id:
+                file_id = parse_qs(parsed.query).get('id', [''])[0]
+        elif host.endswith('docs.google.com'):
+            parts = [part for part in parsed.path.split('/') if part]
+            if 'd' in parts:
+                index = parts.index('d')
+                if index + 1 < len(parts):
+                    file_id = parts[index + 1]
+        if file_id:
+            return f'https://drive.google.com/uc?export=view&id={file_id}'
+    except (ValueError, IndexError):
+        pass
+    return value
 
 
 def make_slug(value, queryset, instance=None, fallback='item'):
@@ -56,9 +90,9 @@ class Book(models.Model):
     def save(self,*args,**kwargs):
         self.slug=make_slug(self.title,Book.objects,self,'book'); super().save(*args,**kwargs)
     @property
-    def cover_src(self): return self.cover_image.url if self.cover_image else self.cover_url
+    def cover_src(self): return self.cover_image.url if self.cover_image else display_image_url(self.cover_url)
     @property
-    def backdrop_src(self): return self.backdrop_image.url if self.backdrop_image else self.backdrop_url
+    def backdrop_src(self): return self.backdrop_image.url if self.backdrop_image else display_image_url(self.backdrop_url)
     def get_absolute_url(self): return reverse('book_detail',kwargs={'slug':self.slug})
     def __str__(self): return self.title
 
